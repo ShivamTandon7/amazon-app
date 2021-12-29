@@ -2,14 +2,15 @@ import Axios from "axios";
 import {PayPalButton} from "react-paypal-button-v2";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { deliverOrder, detailsOrder, payOrder } from "../actions/orderActions";
 import LoadingBox from "../Components/LoadingBox";
 import MessageBox from "../Components/MessageBox";
 import { ORDER_DELIVER_RESET, ORDER_PAY_RESET } from "../Constants/orderConstanst";
 
 export default function OrderScreen(props) {
-    const orderId = props.match.params.id;
+    const params = useParams();
+    const { id: orderId } = params;
     const [sdkReady, setSdkReady] = useState(false);
     const dispatch = useDispatch();
     const userSignin = useSelector((state) => state.userSignin);

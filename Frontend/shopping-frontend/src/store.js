@@ -1,9 +1,9 @@
 import { createStore, compose, applyMiddleware, combineReducers } from "redux";
-import { productListReducer, productDetailsReducer, productCreateReducer, productUpdateReducer, productDeleteReducer } from "./reducer/productReducer";
+import { productListReducer, productDetailsReducer, productCreateReducer, productUpdateReducer, productDeleteReducer, productCategoryListReducer, productReviewCreateReducer } from "./reducer/productReducer";
 import thunk from "redux-thunk";
 import { cartReducer } from "./reducer/cartReducer";
-import { userDetailsReducer, userRegisterReducer, userSigninReducer, userUpdateProfileReducer } from "./reducer/userSigninReducer";
-import { orderCreateReducer, orderDeleteReducer, orderDeliverReducer, orderDetailsReducer, orderListReducer, orderMineListReducer, orderPayReducer } from "./reducer/orderReducers";
+import { userAddressMapReducer, userDeleteReducer, userDetailsReducer, userListReducer, userRegisterReducer, userSigninReducer, userTopSellerListReducer, userUpdateProfileReducer, userUpdateReducer } from "./reducer/userSigninReducer";
+import { orderCreateReducer, orderDeleteReducer, orderDeliverReducer, orderDetailsReducer, orderListReducer, orderMineListReducer, orderPayReducer, orderSummaryReducer } from "./reducer/orderReducers";
 
 const initialState = {
     userSignin: { userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null },
@@ -32,7 +32,15 @@ const reducer = combineReducers({
     productDelete: productDeleteReducer,
     orderList: orderListReducer,
     orderDelete: orderDeleteReducer,
-    orderDeliver: orderDeliverReducer
+    orderDeliver: orderDeliverReducer,
+    userList: userListReducer,
+    userDelete: userDeleteReducer,
+    userUpdate: userUpdateReducer,
+    userTopSellersList: userTopSellerListReducer,
+    productCategoryList: productCategoryListReducer,
+    productReviewCreate: productReviewCreateReducer,
+    userAddressMap: userAddressMapReducer,
+    orderSummary: orderSummaryReducer
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

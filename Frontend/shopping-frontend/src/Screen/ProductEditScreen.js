@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "../../node_modules/axios/index";
+import { useNavigate, useParams } from "react-router-dom";
 import { detailsProduct, updateProduct } from "../actions/productActions";
 import LoadingBox from "../Components/LoadingBox";
 import MessageBox from "../Components/MessageBox";
@@ -9,7 +10,9 @@ import { PRODUCT_UPDATE_RESET } from "../Constants/productConstants";
 
 
 export default function ProductEditScreen(props) {
-    const productId = props.match.params.id;
+    const navigate = useNavigate();
+    const params = useParams();
+    const { id: productId } = params;
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [image, setImage] = useState('');
@@ -25,7 +28,7 @@ export default function ProductEditScreen(props) {
     useEffect(() => {
         if(successUpdate){
             dispatch({type: PRODUCT_UPDATE_RESET});
-            props.history.push('/productlist');
+            navigate('/productlist');
         }
         if (!product || product._id !== productId || successUpdate) {
             dispatch({type: PRODUCT_UPDATE_RESET});
@@ -40,7 +43,7 @@ export default function ProductEditScreen(props) {
             setBrand(product.brand);
             setDescription(product.description);
         }
-    }, [dispatch, product, productId, props.history, successUpdate]);
+    }, [dispatch, product, productId, navigate, successUpdate]);
     const submitHandler = (e) => {
         e.preventDefault();
         dispatch(updateProduct({

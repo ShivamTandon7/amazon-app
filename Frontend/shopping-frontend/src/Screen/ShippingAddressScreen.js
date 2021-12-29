@@ -1,29 +1,49 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { saveShippingAddress } from '../actions/cartActions';
 import CheckoutSteps from '../Components/CheckoutSteps';
 
-export default function ShippingAddressScreen(props) {
-
+export default function ShippingAddressScreen() {
+    const navigate = useNavigate();
     const userSignin = useSelector(state => state.userSignin);
     const { userInfo } = userSignin;
     if (!userInfo) {
-        props.history.push('/signin');
+        navigate('/signin');
     }
     const cart = useSelector(state => state.cart);
     const { shippingAddress} = cart;
-    const [fullName, setFullName] = useState(shippingAddress.fullName);
-    const [address, setAddress] = useState(shippingAddress.address);
-    const [city, setCity] = useState(shippingAddress.city);
-    const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
-    const [country, setCountry] = useState(shippingAddress.country);
+    const userAddressMap = useSelector(state => state.userAddressMap);
+    const { address: addressMap} = userAddressMap;
+    const [fullName, setFullName] = useState(shippingAddress.fullName || '');
+    const [address, setAddress] = useState(shippingAddress.address || '');
+    const [lat, setLat] = useState(shippingAddress.lat || '');
+    const [lng, setLng] = useState(shippingAddress.lng || '');
+    const [city, setCity] = useState(shippingAddress.city || '');
+    const [postalCode, setPostalCode] = useState(shippingAddress.postalCode|| '');
+    const [country, setCountry] = useState(shippingAddress.country || '');
     const dispatch = useDispatch();
     const SubmitHandler = (e) => {
         e.preventDefault();
-        dispatch(saveShippingAddress({ fullName, address, city, postalCode, country }));
-        props.history.push('/payment');
+        const newLat = addressMap ? addressMap.lat: lat;
+        const newLng = addressMap ? addressMap.lng: lng;
+        if(addressMap){
+            setLat(addressMap.lat);
+            setLng(addressMap.lng);
+        }
+        let moveOn = true;
+        if(!newLat && !newLng){
+            moveOn = window.confirm('You did not set your location on map. Continue?');
+        }
+        if(moveOn){
+            dispatch(saveShippingAddress({ fullName, address, city, postalCode, country, lat: newLat, lng: newLng }));
+        }
+        navigate('/payment');
     }
-
+    const chooseOnMap = () => {
+        dispatch(saveShippingAddress({ fullName, address, city, postalCode, country, lat, lng }));
+        navigate('/map');
+    }
     return (
         <div>
             <CheckoutSteps step1 step2></CheckoutSteps>
@@ -50,6 +70,10 @@ export default function ShippingAddressScreen(props) {
                 <div>
                     <label htmlFor="country">Country</label>
                     <input type="text" id="country" placeholder="Enter Country" value={country} onChange={(e) => setCountry(e.target.value)} required/>
+                </div>
+                <div>
+                    <label htmlFor='chooseOnMap'>Location</label>
+                    <button type="button" onClick={chooseOnMap}>Choose On Map</button>
                 </div>
                 <div>
                     <label />

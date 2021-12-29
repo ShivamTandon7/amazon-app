@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { deleteOrder, listOrders } from "../actions/orderActions";
 import LoadingBox from "../Components/LoadingBox";
 import MessageBox from "../Components/MessageBox";
@@ -7,15 +8,20 @@ import { ORDER_DELETE_RESET } from "../Constants/orderConstanst";
 
 
 export default function OrderListScreen(props) {
+    const navigate = useNavigate();
+    const { pathname} = useLocation();
+    const sellerMode = pathname.indexOf('/seller')>=0;
     const orderList = useSelector(state => state.orderList);
     const { loading, error, orders } = orderList;
     const orderDelete = useSelector(state=> state.orderDelete);
     const { loading: loadingDelete, error: errorDelete, success: successDelete} = orderDelete;
     const dispatch = useDispatch();
+    const userSignin = useSelector(state=> state.userSignin);
+    const {userInfo} = userSignin;
     useEffect(()=>{
         dispatch({type: ORDER_DELETE_RESET});
-        dispatch(listOrders());
-    },[dispatch, successDelete]);
+        dispatch(listOrders({seller: sellerMode? userInfo._id: ''}));
+    },[dispatch, sellerMode, successDelete, userInfo._id]);
     const deleteHandler = (order) => {
         if(window.confirm('Are you sure to delete?')){
             dispatch(deleteOrder(order._id));
@@ -52,7 +58,7 @@ export default function OrderListScreen(props) {
                                             <td>{order.totalPrice.toFixed(2)}</td>
                                             <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td>
                                             <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : 'No'}</td>
-                                            <td><button type="button" className="small" onClick={() => props.history.push(`/order/${order._id}`)}>
+                                            <td><button type="button" className="small" onClick={() => navigate(`/order/${order._id}`)}>
                                                 Details
                                             </button>
                                             <button type="button" className="small" onClick={()=> deleteHandler(order)}>Delete</button></td>

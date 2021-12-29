@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { listOrderMine } from "../actions/orderActions";
 import LoadingBox from "../Components/LoadingBox";
 import MessageBox from "../Components/MessageBox";
 
-export default function OrderScreenHistory (props) {
+export default function OrderScreenHistory () {
+    const navigate = useNavigate();
     const orderMineList = useSelector(state => state.orderMineList);
     const { loading,error, orders} = orderMineList;
     const dispatch = useDispatch();
@@ -36,8 +38,8 @@ export default function OrderScreenHistory (props) {
                                 <td>{order.createdAt.substring(0,10)}</td>
                                 <td>{order.totalPrice.toFixed(2)}</td>
                                 <td>{order.isPaid? order.paidAt.substring(0,10): 'No' }</td>
-                                <td>{order.isDeliverd? order.deliveredAt.substring(0,10): 'No' }</td>
-                                <td><button type="button" className="small" onClick={() => props.history.push(`/order/${order._id}`)}>
+                                <td>{order.isDelivered? order.deliveredAt.substring(0,10): 'No' }</td>
+                                <td><button type="button" className="small" onClick={() => navigate(`/order/${order._id}`)}>
                                     Details
                                     </button></td>
                             </tr>    
