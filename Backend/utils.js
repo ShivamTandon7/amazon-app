@@ -9,59 +9,59 @@ export const generateToken = (user) => {
         isAdmin: user.isAdmin,
         isSeller: user.isSeller,
     }, process.env.JWT_SECRET || 'somethingsecret',
-    {
-        expiresIn: '30d',
-    });
+        {
+            expiresIn: '30d',
+        });
 };
 
 export const isAuth = (req, res, next) => {
     const authorization = req.headers.authorization;
-    if(authorization){
+    if (authorization) {
         const token = authorization.slice(7, authorization.length);
         jwt.verify(
             token,
             process.env.JWT_SECRET || 'somethingsecret',
-            (err, decode)=>{
-                if(err){
-                    res.status(401).send({message: 'Invalid Token'});
-                }else{
+            (err, decode) => {
+                if (err) {
+                    res.status(401).send({ message: 'Invalid Token' });
+                } else {
                     req.user = decode;
                     next();
                 }
             }
         )
-    }else{
-        res.status(401).send({ message:'No Token' });
+    } else {
+        res.status(401).send({ message: 'No Token' });
     }
 };
 
 export const isAdmin = (req, res, next) => {
-    if( req.user && req.user.isAdmin ){
+    if (req.user && req.user.isAdmin) {
         next();
-    }else{
-        res.status(401).send({ message:'Invalid Admin Token' });
+    } else {
+        res.status(401).send({ message: 'Invalid Admin Token' });
     }
 };
 
 export const isSeller = (req, res, next) => {
-    if( req.user && req.user.isSeller ){
+    if (req.user && req.user.isSeller) {
         next();
-    }else{
-        res.status(401).send({ message:'Invalid Seller Token' });
+    } else {
+        res.status(401).send({ message: 'Invalid Seller Token' });
     }
 };
 
 export const isSellerOrAdmin = (req, res, next) => {
-    if( req.user && (req.user.isSeller || req.user.isAdmin) ){
+    if (req.user && (req.user.isSeller || req.user.isAdmin)) {
         next();
-    }else{
-        res.status(401).send({ message:'Invalid Admin/Seller Token' });
+    } else {
+        res.status(401).send({ message: 'Invalid Admin/Seller Token' });
     }
 };
 
 export const mailgun = () => mg({
-    apiKey: process.env.MAILGUN_API_KEY,
-    domain: process.env.MAILGUN_DOMAIN,
+    apiKey: process.env.MAILGUN_API_KEY || '',
+    domain: process.env.MAILGUN_DOMAIN || '',
 })
 
 export const payOrderEmailTemplate = (order) => {
@@ -79,16 +79,16 @@ export const payOrderEmailTemplate = (order) => {
     </thead>
     <tbody>
     ${order.orderItems
-      .map(
-        (item) => `
+            .map(
+                (item) => `
       <tr>
       <td>${item.name}</td>
       <td align="center">${item.qty}</td>
       <td align="right"> $${item.price.toFixed(2)}</td>
       </tr>
     `
-      )
-      .join('\n')}
+            )
+            .join('\n')}
         </tbody>
         <tfoot>
         <tr>
@@ -125,4 +125,4 @@ export const payOrderEmailTemplate = (order) => {
         Thanks for shopping with us.
         </p>
         `;
-      };
+};

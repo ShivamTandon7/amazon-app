@@ -55,13 +55,13 @@ export const detailsUser = (userId) => async (dispatch, getState) => {
         type: USER_DETAILS_REQUEST, payload: userId
     })
 
-    const {userSignin: {userInfo} } = getState();
-    try{
-        const {data} = await axios.get(`/api/users/${userId}`, {
+    const { userSignin: { userInfo } } = getState();
+    try {
+        const { data } = await axios.get(`/api/users/${userId}`, {
             headers: { Authorization: `Bearer ${userInfo?.token}` },
         });
-        dispatch({ type: USER_DETAILS_SUCCESS, payload: data}) 
-    }catch(error){
+        dispatch({ type: USER_DETAILS_SUCCESS, payload: data })
+    } catch (error) {
         dispatch({
             type: USER_DETAILS_FAIL,
             payload:
@@ -77,15 +77,15 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         type: USER_UPDATE_PROFILE_REQUEST, payload: user
     })
 
-    const {userSignin: {userInfo} } = getState();
-    try{
-        const {data} = await axios.put(`/api/users/profile`,user, {
+    const { userSignin: { userInfo } } = getState();
+    try {
+        const { data } = await axios.put(`/api/users/profile`, user, {
             headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data});
-        dispatch({ type: USER_SIGNIN_SUCCESS, payload: data});
-        localStorage.setItem('userInfo', JSON.stringify(data)); 
-    }catch(error){
+        dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
+        dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
+        localStorage.setItem('userInfo', JSON.stringify(data));
+    } catch (error) {
         dispatch({
             type: USER_UPDATE_PROFILE_FAIL,
             payload:
@@ -100,13 +100,13 @@ export const listUsers = () => async (dispatch, getState) => {
     dispatch({
         type: USER_LIST_REQUEST
     })
-    try{
-        const {userSignin: {userInfo} } = getState();
-        const {data} = await axios.get(`/api/users`, {
+    try {
+        const { userSignin: { userInfo } } = getState();
+        const { data } = await axios.get(`/api/users`, {
             headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        dispatch({ type: USER_LIST_SUCCESS, payload: data}); 
-    }catch(error){
+        dispatch({ type: USER_LIST_SUCCESS, payload: data });
+    } catch (error) {
         dispatch({
             type: USER_LIST_FAIL,
             payload:
@@ -121,10 +121,10 @@ export const listTopSellers = () => async (dispatch) => {
     dispatch({
         type: USER_TOPSELLERS_LIST_REQUEST
     })
-    try{
-        const {data} = await axios.get(`/api/users/top-sellers`);
-        dispatch({ type: USER_TOPSELLERS_LIST_SUCCESS, payload: data}); 
-    }catch(error){
+    try {
+        const { data } = await axios.get(`/api/users/top-sellers`);
+        dispatch({ type: USER_TOPSELLERS_LIST_SUCCESS, payload: data });
+    } catch (error) {
         dispatch({
             type: USER_TOPSELLERS_LIST_FAIL,
             payload:
@@ -139,13 +139,13 @@ export const deleteUser = (userId) => async (dispatch, getState) => {
     dispatch({
         type: USER_DELETE_REQUEST, payload: userId
     })
-    try{
-        const {userSignin: {userInfo} } = getState();
-        const {data} = await axios.delete(`/api/users/${userId}`, {
+    try {
+        const { userSignin: { userInfo } } = getState();
+        const { data } = await axios.delete(`/api/users/${userId}`, {
             headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        dispatch({ type: USER_DELETE_SUCCESS, payload: data}); 
-    }catch(error){
+        dispatch({ type: USER_DELETE_SUCCESS, payload: data });
+    } catch (error) {
         dispatch({
             type: USER_DELETE_FAIL,
             payload:
@@ -161,13 +161,13 @@ export const updateUser = (user) => async (dispatch, getState) => {
         type: USER_UPDATE_REQUEST, payload: user
     })
 
-    const {userSignin: {userInfo} } = getState();
-    try{
-        const {data} = await axios.put(`/api/users/${user._id}`, user, {
+    const { userSignin: { userInfo } } = getState();
+    try {
+        const { data } = await axios.put(`/api/users/${user._id}`, user, {
             headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        dispatch({ type: USER_UPDATE_SUCCESS, payload: data});
-    }catch(error){
+        dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
+    } catch (error) {
         dispatch({
             type: USER_UPDATE_FAIL,
             payload:

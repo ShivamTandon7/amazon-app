@@ -108,7 +108,7 @@ orderRouter.put('/:id/pay', isAuth, expressAsyncHandler(async (req, res) => {
                     console.log(body);
                 }
             })
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
         res.send({ message: 'Order Paid', order: updatedOrder })

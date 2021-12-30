@@ -129,20 +129,20 @@ export const deliverOrder = (orderId) => async (dispatch, getState) => {
 export const summaryOrder = () => async (dispatch, getState) => {
     dispatch({ type: ORDER_SUMMARY_REQUEST });
     const {
-      userSignin: { userInfo },
+        userSignin: { userInfo },
     } = getState();
     try {
-      const { data } = await Axios.get('/api/orders/summary', {
-        headers: { Authorization: `Bearer ${userInfo.token}` },
-      });
-      dispatch({ type: ORDER_SUMMARY_SUCCESS, payload: data });
+        const { data } = await Axios.get('/api/orders/summary', {
+            headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
+        dispatch({ type: ORDER_SUMMARY_SUCCESS, payload: data });
     } catch (error) {
-      dispatch({
-        type: ORDER_SUMMARY_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
+        dispatch({
+            type: ORDER_SUMMARY_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
     }
-  };
+};
