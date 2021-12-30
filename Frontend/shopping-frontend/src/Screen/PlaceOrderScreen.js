@@ -14,8 +14,8 @@ export default function PlaceOrderScreen(props) {
     if (!cart.paymentMethod) {
         navigate('/payment');
     }
-    const orderCreate = useSelector((state)=>state.orderCreate);
-    const {loading, success, error, order} = orderCreate;
+    const orderCreate = useSelector((state) => state.orderCreate);
+    const { loading, success, error, order } = orderCreate;
     const toPrice = (num) => Number(num.toFixed(2));
     cart.itemsPrice = toPrice(cart.cartItems.reduce((a, c) => a + c.qty * c.price, 0));
     cart.shippingPrice = cart.itemsPrice > 100 ? toPrice(0) : toPrice(10);
@@ -23,14 +23,14 @@ export default function PlaceOrderScreen(props) {
     cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
     const dispatch = useDispatch();
     const placeOrderHandler = () => {
-        dispatch(createdOrder({...cart, orderItems: cart.cartItems}));
+        dispatch(createdOrder({ ...cart, orderItems: cart.cartItems }));
     }
-    useEffect(()=>{
-        if(success){
+    useEffect(() => {
+        if (success) {
             navigate(`/order/${order._id}`);
-            dispatch({type: ORDER_CREATE_RESET});
+            dispatch({ type: ORDER_CREATE_RESET });
         }
-    },[dispatch, order, navigate, success])
+    }, [dispatch, order, navigate, success])
     return (
         <div>
             <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>

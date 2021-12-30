@@ -11,7 +11,7 @@ export default function SignInScreen(props) {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const {search} = useLocation();
+    const { search } = useLocation();
     const redirectInUrl = new URLSearchParams(search).get('redirect');
     const redirect = redirectInUrl ? redirectInUrl : '/';
     const dispatch = useDispatch();
@@ -25,10 +25,10 @@ export default function SignInScreen(props) {
     }
 
     useEffect(() => {
-        if(userInfo){
+        if (userInfo) {
             navigate(redirect);
         }
-    },[navigate, redirect, userInfo]
+    }, [navigate, redirect, userInfo]
     )
     return (
         <div>
@@ -36,8 +36,8 @@ export default function SignInScreen(props) {
                 <div>
                     <h1>Sign In</h1>
                 </div>
-                { loading && <LoadingBox></LoadingBox>}
-                { error && <MessageBox variant="danger">{error}</MessageBox>}
+                {loading && <LoadingBox></LoadingBox>}
+                {error && <MessageBox variant="danger">{error}</MessageBox>}
                 <div>
                     <label htmlFor="email">Email Address</label>
                     <input type="email" id="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} required>

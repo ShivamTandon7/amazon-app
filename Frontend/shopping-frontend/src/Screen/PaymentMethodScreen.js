@@ -8,7 +8,7 @@ export default function PaymentMethodScreen() {
     const navigate = useNavigate();
     const cart = useSelector((state) => state.cart);
     const { shippingAddress } = cart;
-    if(!shippingAddress.address){
+    if (!shippingAddress.address) {
         navigate('/shipping');
     }
     const [paymentMethod, setPaymentMethod] = useState('Paypal');
@@ -29,14 +29,14 @@ export default function PaymentMethodScreen() {
                     <div>
                         <input type="radio" id="paypal" value="Paypal" name="paymentMethod" required checked
                             onChange={(e) => setPaymentMethod(e.target.value)} />
-                         <label htmlFor="paypal">Paypal</label>   
+                        <label htmlFor="paypal">Paypal</label>
                     </div>
                 </div>
                 <div>
                     <div>
                         <input type="radio" id="stripe" value="Stripe" name="paymentMethod" required
                             onChange={(e) => setPaymentMethod(e.target.value)} />
-                         <label htmlFor="stripe">Stripe</label>   
+                        <label htmlFor="stripe">Stripe</label>
                     </div>
                 </div>
                 <div>

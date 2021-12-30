@@ -13,7 +13,7 @@ export default function RegisterScreen(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const {search} = useLocation();
+    const { search } = useLocation();
     const redirectInUrl = new URLSearchParams(search).get('redirect');
     const redirect = redirectInUrl ? redirectInUrl : '/';
     const dispatch = useDispatch();
@@ -23,19 +23,19 @@ export default function RegisterScreen(props) {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        if(password !== confirmPassword){
+        if (password !== confirmPassword) {
             alert('Password and Confirm Password are not same');
         }
-        else{
+        else {
             dispatch(register(name, email, password));
         }
     }
 
     useEffect(() => {
-        if(userInfo){
+        if (userInfo) {
             navigate(redirect);
         }
-    },[navigate, redirect, userInfo]
+    }, [navigate, redirect, userInfo]
     )
     return (
         <div>
@@ -43,8 +43,8 @@ export default function RegisterScreen(props) {
                 <div>
                     <h1>Create Account</h1>
                 </div>
-                { loading && <LoadingBox></LoadingBox>}
-                { error && <MessageBox variant="danger">{error}</MessageBox>}
+                {loading && <LoadingBox></LoadingBox>}
+                {error && <MessageBox variant="danger">{error}</MessageBox>}
                 <div>
                     <label htmlFor="name">Name</label>
                     <input type="text" id="name" placeholder="Enter name" onChange={(e) => setName(e.target.value)} required>

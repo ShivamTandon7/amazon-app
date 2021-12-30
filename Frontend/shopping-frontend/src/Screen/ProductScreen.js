@@ -30,7 +30,7 @@ export default function ProductScreen(props) {
             window.alert('Review Submitted Successfully');
             setRating('');
             setComment('');
-            dispatch({type: PRODUCT_REVIEW_CREATE_RESET});
+            dispatch({ type: PRODUCT_REVIEW_CREATE_RESET });
         }
         dispatch(detailsProduct(productId));
     }, [dispatch, productId, successReviewCreate]);

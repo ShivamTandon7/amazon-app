@@ -15,18 +15,18 @@ export default function UserEditScreen(props) {
     const [isSeller, setIsSeller] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const dispatch = useDispatch();
-    const userDetails = useSelector(state=> state.userDetails);
+    const userDetails = useSelector(state => state.userDetails);
     const { loading, error, user } = userDetails;
-    const userUpdate = useSelector(state=> state.userUpdate);
+    const userUpdate = useSelector(state => state.userUpdate);
     const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = userUpdate;
-    useEffect(()=> {
-        if(successUpdate){
-            dispatch({type: USER_UPDATE_RESET})
+    useEffect(() => {
+        if (successUpdate) {
+            dispatch({ type: USER_UPDATE_RESET })
             navigate('/userlist');
         }
-        if(!user){
+        if (!user) {
             dispatch(detailsUser(userId));
-        }else{
+        } else {
             setName(user.name);
             setEmail(user.email);
             setIsSeller(user.isAdmin);
@@ -35,7 +35,7 @@ export default function UserEditScreen(props) {
     }, [dispatch, navigate, successUpdate, user, userId]);
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(updateUser({_id: userId, name, email, isSeller, isAdmin}));
+        dispatch(updateUser({ _id: userId, name, email, isSeller, isAdmin }));
     }
 
     return (

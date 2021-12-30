@@ -9,24 +9,24 @@ import { ORDER_DELETE_RESET } from "../Constants/orderConstanst";
 
 export default function OrderListScreen(props) {
     const navigate = useNavigate();
-    const { pathname} = useLocation();
-    const sellerMode = pathname.indexOf('/seller')>=0;
+    const { pathname } = useLocation();
+    const sellerMode = pathname.indexOf('/seller') >= 0;
     const orderList = useSelector(state => state.orderList);
     const { loading, error, orders } = orderList;
-    const orderDelete = useSelector(state=> state.orderDelete);
-    const { loading: loadingDelete, error: errorDelete, success: successDelete} = orderDelete;
+    const orderDelete = useSelector(state => state.orderDelete);
+    const { loading: loadingDelete, error: errorDelete, success: successDelete } = orderDelete;
     const dispatch = useDispatch();
-    const userSignin = useSelector(state=> state.userSignin);
-    const {userInfo} = userSignin;
-    useEffect(()=>{
-        dispatch({type: ORDER_DELETE_RESET});
-        dispatch(listOrders({seller: sellerMode? userInfo._id: ''}));
-    },[dispatch, sellerMode, successDelete, userInfo._id]);
+    const userSignin = useSelector(state => state.userSignin);
+    const { userInfo } = userSignin;
+    useEffect(() => {
+        dispatch({ type: ORDER_DELETE_RESET });
+        dispatch(listOrders({ seller: sellerMode ? userInfo._id : '' }));
+    }, [dispatch, sellerMode, successDelete, userInfo._id]);
     const deleteHandler = (order) => {
-        if(window.confirm('Are you sure to delete?')){
+        if (window.confirm('Are you sure to delete?')) {
             dispatch(deleteOrder(order._id));
         }
-    } 
+    }
     return (
         <div>
             <div>
@@ -61,7 +61,7 @@ export default function OrderListScreen(props) {
                                             <td><button type="button" className="small" onClick={() => navigate(`/order/${order._id}`)}>
                                                 Details
                                             </button>
-                                            <button type="button" className="small" onClick={()=> deleteHandler(order)}>Delete</button></td>
+                                                <button type="button" className="small" onClick={() => deleteHandler(order)}>Delete</button></td>
                                         </tr>
                                     ))}
                                 </tbody>

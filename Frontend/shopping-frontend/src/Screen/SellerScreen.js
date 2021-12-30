@@ -18,7 +18,7 @@ export default function SellerScreen(props) {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(detailsUser(sellerId));
-        dispatch(listProducts({seller: sellerId}));
+        dispatch(listProducts({ seller: sellerId }));
     }, [dispatch, sellerId]);
     return (
         <div className='row top'>

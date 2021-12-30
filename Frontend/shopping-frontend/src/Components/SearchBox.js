@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 export default function SearchBox() {
     const [name, setName] = useState('');
     const navigate = useNavigate();
-    const submitHandler = (e)=> {
+    const submitHandler = (e) => {
         e.preventDefault();
         navigate(`/search/name/${name}`);
     };
-    return(
+    return (
         <form className="search" onSubmit={submitHandler}>
             <div className="row">
-                <input type="text" name="q" id="q" onChange={(e)=> setName(e.target.value)}>
+                <input type="text" name="q" id="q" onChange={(e) => setName(e.target.value)}>
 
                 </input>
                 <button className="primary" type="submit">

@@ -29,7 +29,7 @@ export default function ProfileScreen() {
         else {
             setName(user.name);
             setEmail(user.email);
-            if(user.seller){
+            if (user.seller) {
                 setSellerName(user.seller.name);
                 setSellerLogo(user.seller.logo);
                 setSellerDescription(user.seller.description);
@@ -44,7 +44,7 @@ export default function ProfileScreen() {
             dispatch(updateUserProfile({
                 userId: user._id,
                 name, email, password,
-                sellerName,sellerLogo, sellerDescription
+                sellerName, sellerLogo, sellerDescription
             }))
         }
     }
